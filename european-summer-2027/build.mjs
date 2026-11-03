@@ -56,7 +56,7 @@ const copyDir = (from, to) => {
   }
 };
 
-const FONTS = 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300..600&display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300..600&family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400..800&display=swap';
 const DESCRIPTION = 'Our European summer, 24 July – 27 August 2027: Vienna, Montenegro, Albania and Greece, from the Adriatic mountains to the Ionian Sea.';
 
 function html({ css, js, inline }) {
