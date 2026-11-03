@@ -245,7 +245,7 @@ button { cursor: pointer; font: inherit; color: inherit; background: none; borde
 @media (min-width: 768px) { .stay__info { padding: 1.4rem 1.2rem 1.2rem 0; } }
 .stay__name { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.08; color: var(--color-navy); margin: 0; text-wrap: balance; }
 .stay__type { font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--color-muted); margin: .7rem 0 1rem; }
-.stay__blurb { margin: 0 0 1.2rem; color: #3b4450; max-width: 46ch; }
+.stay__blurb { margin: 0 0 1.2rem; color: var(--desc, #3b4450); max-width: 46ch; }
 .stay__features { list-style: none; margin: 0 0 1.4rem; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
 .stay__features li { font-size: .78rem; padding: .35rem .8rem; border-radius: 999px; background: color-mix(in srgb, var(--color-sand) 60%, transparent); color: var(--color-navy); }
 .stay__dates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; margin: 0 0 1.6rem; padding: 1rem 0; border-block: 1px solid color-mix(in srgb, var(--color-sand-deep) 55%, transparent); }
@@ -282,7 +282,7 @@ button { cursor: pointer; font: inherit; color: inherit; background: none; borde
 .spot__photo-btn:hover .spot__zoom, .spot__photo-btn:focus-visible .spot__zoom { opacity: 1; }
 @media (hover: none) { .spot__zoom { opacity: .9; } }
 .spot__name { font-family: var(--font-display); font-weight: 500; font-size: 1.45rem; line-height: 1.15; color: var(--color-navy); margin: 0 0 .3rem; }
-.spot__desc { margin: 0 0 .6rem; font-size: .96rem; color: #444d58; }
+.spot__desc { margin: 0 0 .6rem; font-size: .96rem; color: var(--desc, #444d58); }
 .spot__map { display: inline-flex; align-items: center; gap: .35rem; min-height: 32px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--color-turquoise); text-decoration: none; font-weight: 500; }
 .spot__map:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -409,4 +409,27 @@ button { cursor: pointer; font: inherit; color: inherit; background: none; borde
 @media (prefers-reduced-motion: no-preference) {
   .dest .dest__body > * { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
   .dest:not(.in-view) .dest__body > * { transform: translateY(18px); }
+}
+
+/* ── Laptop & desktop: heavier, darker type for readability ─────── */
+@media (min-width: 1024px) {
+  :root {
+    --font-display: "DM Serif Display", "Bodoni Moda", Didot, Georgia, serif;
+    --font-sans: "Figtree", "Jost", "Segoe UI", system-ui, sans-serif;
+    --color-olive: #4f5226;
+    --color-ink: #111a24;
+    --color-muted: #39424d;
+    --desc: #222a34;
+  }
+  body { font-size: 18px; font-weight: 500; font-synthesis: none; }
+  .eyebrow { font-weight: 700; letter-spacing: .18em; font-size: .8rem; }
+  .timeline__nights, .stay__type, .stay__dates dt, .explore__count, .spot__map, .highlight__where, .dest__facts, .hero__dates, .hero__flags, .transit__meta, .finale__dates, .route__legs span { font-weight: 700; }
+  .spot__desc { font-size: 1.02rem; }
+  .transit__note { font-size: .92rem; color: rgba(247, 242, 232, .88); }
+  .footer__small { color: rgba(247, 242, 232, .85); }
+  .map-stop__label { font-weight: 700; }
+  .hero__content, .dest__hero-text, .finale__content { text-shadow: 0 1px 18px rgba(0, 0, 0, .35); }
+  .hero__shade { background: linear-gradient(to top, rgba(7, 20, 33, .88) 0%, rgba(7, 20, 33, .45) 45%, rgba(7, 20, 33, .2) 70%, rgba(7, 20, 33, .5) 100%); }
+  .dest__hero-shade { background: linear-gradient(to top, rgba(7, 20, 33, .88) 0%, rgba(7, 20, 33, .35) 45%, rgba(7, 20, 33, 0) 65%); }
+  .route__lede, .finale__line { color: var(--color-ivory); }
 }
