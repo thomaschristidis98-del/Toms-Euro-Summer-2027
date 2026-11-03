@@ -415,8 +415,8 @@ button { cursor: pointer; font: inherit; color: inherit; background: none; borde
 
 /* ── Heavier, darker type for readability (all screen sizes) ─────── */
 :root {
-  --font-display: "DM Serif Display", "Bodoni Moda", Didot, Georgia, serif;
-  --font-sans: "Figtree", "Jost", "Segoe UI", system-ui, sans-serif;
+  --font-display: "DM Serif Display", "Noto Color Emoji", "Bodoni Moda", Didot, Georgia, serif;
+  --font-sans: "Figtree", "Noto Color Emoji", "Jost", "Segoe UI", system-ui, sans-serif;
   --color-olive: #4f5226;
   --color-ink: #111a24;
   --color-muted: #39424d;
