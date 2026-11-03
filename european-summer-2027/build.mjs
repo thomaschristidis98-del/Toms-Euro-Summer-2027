@@ -57,6 +57,8 @@ const copyDir = (from, to) => {
 };
 
 const FONTS = 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300..600&family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400..800&display=swap';
+// Flag emoji: Windows has no colour flags, so load just these four from Noto Color Emoji.
+const FLAGS = 'https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text=' + encodeURIComponent('🇦🇹🇲🇪🇦🇱🇬🇷') + '&display=swap';
 const DESCRIPTION = 'Our European summer, 24 July – 27 August 2027: Vienna, Montenegro, Albania and Greece, from the Adriatic mountains to the Ionian Sea.';
 
 function html({ css, js, inline }) {
@@ -67,7 +69,8 @@ function html({ css, js, inline }) {
 <meta property="og:title" content="European Summer 2027">
 <meta property="og:description" content="${DESCRIPTION}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="${FONTS}">`;
+<link rel="stylesheet" href="${FONTS}">
+<link rel="stylesheet" href="${FLAGS}">`;
   if (inline) {
     return `${head}
 <style>${css}</style>
