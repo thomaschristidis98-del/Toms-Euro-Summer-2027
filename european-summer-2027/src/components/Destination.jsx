@@ -126,6 +126,8 @@ function Stay({ d, owner }) {
     <div className="stay">
       <div className="stay__gallery">
         {items.length ? (
+          <div className="stay__strip-wrap">
+          {items.length > 1 && <span className="stay__count" aria-hidden="true">{items.length} photos · swipe</span>}
           <div className="stay__strip" tabIndex={0} aria-label={`${h.name} photos, swipe to see more`}>
             {items.map((it, i) => (
               <figure key={it.url} className="stay__slide">
@@ -135,6 +137,7 @@ function Stay({ d, owner }) {
                 {owner && it.localId && <button className="stay__remove" onClick={() => removeLocal(it.localId, d.id)}>Remove</button>}
               </figure>
             ))}
+          </div>
           </div>
         ) : (
           <PhotoPlaceholder className="stay__placeholder" label={h.name} note="Property photos coming soon">
