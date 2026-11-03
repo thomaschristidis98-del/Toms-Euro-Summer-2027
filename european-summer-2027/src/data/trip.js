@@ -1,0 +1,432 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// European Summer 2027 — all trip content lives in this file.
+// Edit dates, hotels, attractions, journeys and the Greece section here; the
+// components only render what is defined below. Run `npm run check` after edits:
+// it confirms the dates, weekdays, night counts and that every stay connects.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const CHECKED = '2026-11-03'; // date the research below was last checked
+
+/** Status vocabulary. Keep these honest: they describe what is actually known. */
+export const STATUS = {
+  ACC_CONFIRMED: 'Confirmed accommodation', // a booking exists for every night
+  ACC_SELECTED: 'Selected accommodation',   // chosen property, booking not verified here
+  ACC_PARTIAL: 'Booking needs verification', // booking exists but does not cover all planned nights
+  ACC_TBA: 'Accommodation TBA',
+  STAY_PLANNED: 'Planned stay',
+  STAY_TBC: 'Stay TBC',
+  TRANSPORT_PROPOSED: 'Proposed, not booked',
+  TRANSPORT_TBC: 'Transport TBC',
+  DURATION_EST: 'Estimated duration',
+};
+
+export const trip = {
+  title: 'European Summer 2027',
+  subtitle: 'From the Adriatic Mountains to the Ionian Sea',
+  start: '2027-07-24',
+  end: '2027-08-27',
+  totalNights: 34,
+  countries: [
+    { code: 'AT', name: 'Austria', flag: '🇦🇹' },
+    { code: 'ME', name: 'Montenegro', flag: '🇲🇪' },
+    { code: 'AL', name: 'Albania', flag: '🇦🇱' },
+    { code: 'GR', name: 'Greece', flag: '🇬🇷' },
+  ],
+  arrival: {
+    date: '2027-07-23',
+    text: 'Leaving Sydney on 23 July, flying via Singapore and landing in Vienna on 24 July.',
+    status: 'International flights TBA',
+  },
+  departure: { city: 'Athens', date: '2027-08-27', note: 'Planned departure city and date' },
+  homeCarousel: ['kotor-bay', 'theth-hero', 'budva-svetistefan', 'berat-hero', 'himare-gjipe', 'ksamil-hero', 'corfu-timoni'],
+};
+
+const gmaps = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const route = (origin, destination, waypoints = []) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}` +
+  (waypoints.length ? `&waypoints=${encodeURIComponent(waypoints.join('|'))}` : '') +
+  '&travelmode=driving';
+
+// ── Places used on the map (lat, lon) ────────────────────────────────────────
+export const places = {
+  vienna: { name: 'Vienna', coord: [48.2082, 16.3738] },
+  tgd: { name: 'Podgorica Airport', coord: [42.3594, 19.2519] },
+  kotor: { name: 'Kotor', coord: [42.4247, 18.7712] },
+  budva: { name: 'Budva', coord: [42.2779, 18.8376] },
+  shkoder: { name: 'Shkodër', coord: [42.0683, 19.5126] },
+  theth: { name: 'Theth', coord: [42.3958, 19.7738] },
+  tirana: { name: 'Tirana', coord: [41.3275, 19.8187] },
+  berat: { name: 'Berat', coord: [40.7058, 19.9522] },
+  himare: { name: 'Himarë', coord: [40.1017, 19.7447] },
+  ksamil: { name: 'Ksamil', coord: [39.7700, 20.0010] },
+  sarandePort: { name: 'Sarandë Port', coord: [39.8740, 20.0045] },
+  corfu: { name: 'Corfu', coord: [39.6243, 19.9217] },
+};
+
+// ── Journeys ────────────────────────────────────────────────────────────────
+// mode: 'flight' | 'road' | 'ferry'. `path` is the line drawn on the map:
+// road paths follow the real road corridor through named towns (approximate,
+// not turn-by-turn). Durations are moving time unless the note says otherwise.
+export const journeys = {
+  'vienna-tgd': {
+    date: '2027-07-26', from: 'Vienna', to: 'Podgorica', mode: 'flight', vehicle: 'plane',
+    label: 'Flight to Montenegro',
+    duration: 'Approx. 1h 20m',
+    minutes: [80, 80],
+    detail: 'Proposed: Austrian Airlines OS735',
+    note: 'Flight time only. Allow for airport check-in and bag collection.',
+    status: STATUS.TRANSPORT_PROPOSED,
+    sources: [{ url: 'https://proflightsearch.com/flight/OS735', note: 'Current schedule shows VIE 12:55 → TGD 14:15; 2027 timetable not yet published', checked: CHECKED }],
+    path: 'arc', from_place: 'vienna', to_place: 'tgd',
+  },
+  'tgd-kotor': {
+    date: '2027-07-26', from: 'Podgorica Airport', to: 'Kotor', mode: 'road', vehicle: 'car',
+    label: 'Mountain road via Cetinje',
+    duration: 'Approx. 1h 30m – 1h 45m',
+    minutes: [90, 105],
+    note: '75 km over the Lovćen pass. A tunnel route via the coast is a little quicker.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Podgorica Airport, Montenegro', 'Kotor Old Town, Montenegro', ['Cetinje, Montenegro']),
+    sources: [{ url: 'https://easybalkantransfers.com/airport-transfers/podgorica-airport-to-kotor/', checked: CHECKED }],
+    path: [[42.3594, 19.2519], [42.3990, 19.2380], [42.4280, 19.2050], [42.4140, 19.1200], [42.3830, 19.0200], [42.3900, 18.9230], [42.4100, 18.8700], [42.4296, 18.8167], [42.4180, 18.7920], [42.4247, 18.7712]],
+  },
+  'kotor-budva': {
+    date: '2027-07-29', from: 'Kotor', to: 'Budva', mode: 'road', vehicle: 'car',
+    label: 'Short coastal hop',
+    duration: 'Approx. 30 – 45 min',
+    minutes: [30, 45],
+    note: '22 km. Summer traffic near Tivat and the Kotor roundabout can add time.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Kotor Old Town, Montenegro', 'Budva Old Town, Montenegro'),
+    sources: [{ url: 'https://easybalkantransfers.com/transfers/budva-to-kotor-private-transfer/', checked: CHECKED }],
+    path: [[42.4247, 18.7712], [42.4050, 18.7700], [42.3700, 18.7750], [42.3300, 18.7900], [42.2950, 18.8080], [42.2779, 18.8376]],
+  },
+  'budva-shkoder': {
+    date: '2027-07-31', from: 'Budva', to: 'Shkodër', mode: 'road', vehicle: 'bus',
+    label: 'Bus or transfer · border crossing',
+    duration: 'Approx. 3h – 4h 30m',
+    minutes: [180, 270],
+    note: 'Includes the Montenegro–Albania border. Scheduled buses take 3h 10m – 4h 20m. Route depends on the operator.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Budva, Montenegro', 'Shkodër, Albania'),
+    sources: [{ url: 'https://12go.com/en/bus/shkoder/budva', note: 'Reverse-direction timetable used as a guide', checked: CHECKED }],
+    path: [[42.2779, 18.8376], [42.2050, 18.9430], [42.1420, 19.0470], [42.0940, 19.1000], [42.0050, 19.1700], [41.9500, 19.2400], [41.9800, 19.3300], [42.0300, 19.3950], [42.0683, 19.5126]],
+  },
+  'shkoder-theth': {
+    date: '2027-08-02', from: 'Shkodër', to: 'Theth', mode: 'road', vehicle: 'car',
+    label: 'Scenic mountain drive',
+    duration: 'Approx. 2h – 2h 30m',
+    minutes: [120, 150],
+    note: 'Paved SH21 via Koplik and the Thorë pass. Narrow single-lane stretches; allow time for photo stops.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Shkodër, Albania', 'Theth, Albania', ['Koplik, Albania']),
+    sources: [
+      { url: 'https://thetravelfolk.com/road-to-theth-albania/', checked: CHECKED },
+      { url: 'https://albaniatourguide.com/shkoder-to-theth-bus-taxi-public-transport-car-drive/', checked: CHECKED },
+    ],
+    path: [[42.0683, 19.5126], [42.1300, 19.4700], [42.2130, 19.4360], [42.2800, 19.5100], [42.3500, 19.5700], [42.4040, 19.6380], [42.4250, 19.6950], [42.4150, 19.7450], [42.3958, 19.7738]],
+  },
+  'theth-tirana': {
+    date: '2027-08-04', from: 'Theth', to: 'Tirana', mode: 'road', vehicle: 'car',
+    label: 'Back over the mountains, then south',
+    duration: 'Approx. 4h – 5h',
+    minutes: [240, 300],
+    note: 'Returns via Koplik and Shkodër; there is no road east through Valbonë.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Theth, Albania', 'Blloku, Tirana, Albania', ['Koplik, Albania', 'Shkodër, Albania']),
+    sources: [{ url: 'https://albaniatourguide.com/theth-to-tirana-bus-taxi-4-wheel-drive-prices-timetables/', checked: CHECKED }],
+    path: [[42.3958, 19.7738], [42.4150, 19.7450], [42.4250, 19.6950], [42.4040, 19.6380], [42.3500, 19.5700], [42.2800, 19.5100], [42.2130, 19.4360], [42.1300, 19.4700], [42.0683, 19.5126], [41.9200, 19.5900], [41.7830, 19.6450], [41.6800, 19.7100], [41.4800, 19.7100], [41.3275, 19.8187]],
+  },
+  'tirana-berat': {
+    date: '2027-08-06', from: 'Tirana', to: 'Berat', mode: 'road', vehicle: 'car',
+    label: 'Motorway south to the hills',
+    duration: 'Approx. 2h – 2h 15m',
+    minutes: [120, 135],
+    note: 'About 120 km, mostly dual carriageway via Kavajë, Rrogozhinë and Lushnjë.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Tirana, Albania', 'Berat, Albania', ['Lushnjë, Albania']),
+    sources: [
+      { url: 'https://easybalkantransfers.com/transfers/tirana-to-berat-private-transfer/', checked: CHECKED },
+      { url: 'https://himara.net/blog/albanian-riviera-drive-times', checked: CHECKED },
+    ],
+    path: [[41.3275, 19.8187], [41.2900, 19.6800], [41.1850, 19.5570], [41.0750, 19.6650], [40.9400, 19.7050], [40.8600, 19.8000], [40.7700, 19.8800], [40.7058, 19.9522]],
+  },
+  'berat-himare': {
+    date: '2027-08-07', from: 'Berat', to: 'Himarë', mode: 'road', vehicle: 'car',
+    label: 'To the coast over Llogara',
+    duration: 'Approx. 3h – 3h 45m',
+    minutes: [180, 225],
+    note: '164 km via Fier, Vlorë and the Llogara tunnel or pass. An early start avoids August traffic.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Berat, Albania', 'Potam Beach, Himarë, Albania', ['Vlorë, Albania']),
+    sources: [{ url: 'https://himara.net/blog/albanian-riviera-drive-times', checked: CHECKED }],
+    path: [[40.7058, 19.9522], [40.7700, 19.8800], [40.7250, 19.5560], [40.5500, 19.5000], [40.4660, 19.4900], [40.3200, 19.4700], [40.2500, 19.5300], [40.2100, 19.5800], [40.1520, 19.6360], [40.1300, 19.6900], [40.1017, 19.7447]],
+  },
+  'himare-ksamil': {
+    date: '2027-08-11', from: 'Himarë', to: 'Ksamil', mode: 'road', vehicle: 'car',
+    label: 'Riviera coast road',
+    duration: 'Approx. 1h 30m – 2h',
+    minutes: [90, 120],
+    note: '65 km on the SH8 via Porto Palermo, Borsh and Sarandë.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Himarë, Albania', 'Ksamil, Albania', ['Sarandë, Albania']),
+    sources: [{ url: 'https://himara.net/blog/albanian-riviera-drive-times', checked: CHECKED }],
+    path: [[40.1017, 19.7447], [40.0650, 19.7900], [40.0550, 19.8550], [39.9800, 19.9200], [39.9300, 19.9700], [39.8750, 20.0050], [39.8400, 20.0200], [39.8000, 20.0100], [39.7700, 20.0010]],
+  },
+  'ksamil-sarande': {
+    date: '2027-08-14', from: 'Ksamil', to: 'Sarandë Port', mode: 'road', vehicle: 'car',
+    label: 'To the ferry port',
+    duration: 'Approx. 25 – 40 min',
+    minutes: [25, 40],
+    note: '14 km. Plan to return the rental car in Sarandë (arrangements TBC). Summer traffic can push this towards an hour.',
+    status: STATUS.TRANSPORT_TBC,
+    routeUrl: route('Ksamil, Albania', 'Port of Sarandë, Albania'),
+    sources: [{ url: 'https://himara.net/blog/albanian-riviera-drive-times', checked: CHECKED }],
+    path: [[39.7700, 20.0010], [39.8000, 20.0100], [39.8400, 20.0200], [39.8740, 20.0045]],
+  },
+  'sarande-corfu': {
+    date: '2027-08-14', from: 'Sarandë', to: 'Corfu', mode: 'ferry', vehicle: 'ferry',
+    label: 'Across the Ionian Sea',
+    duration: 'Approx. 30 min – 1h 40m sailing',
+    minutes: [30, 100],
+    note: 'Fast boats take about 30 minutes; slower ferries longer. Corfu is one hour ahead of Albania, so add an hour to local arrival time. Arrive 45 minutes early for passport control.',
+    status: STATUS.TRANSPORT_TBC,
+    sources: [{ url: 'https://www.directferries.com/blog/travelling-from-saranda-to-corfu-complete-ferry-and-travel-guide', note: 'Operators listed: Finikas Lines, Ionian Seaways. 2027 timetable not yet published', checked: CHECKED }],
+    path: [[39.8740, 20.0045], [39.8350, 19.9800], [39.7600, 19.9700], [39.6950, 19.9450], [39.6270, 19.9120]],
+  },
+};
+
+// ── Destinations, in order ──────────────────────────────────────────────────
+export const destinations = [
+  {
+    id: 'vienna', name: 'Vienna', country: 'Austria', flag: '🇦🇹', place: 'vienna',
+    checkIn: '2027-07-24', checkOut: '2027-07-26', nights: 2, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'Where it begins',
+    intro: 'Two unhurried days to shake off the long flight from Sydney. Imperial palaces, a cathedral roof of coloured tiles and coffee served on a silver tray, the way Vienna has done it for two centuries.',
+    hero: 'vienna-hero',
+    hotel: { name: null, status: STATUS.ACC_TBA },
+    attractions: [
+      { name: 'Schönbrunn Palace', photo: 'vienna-schonbrunn', text: 'The Habsburg summer palace and its formal gardens, climbing to the Gloriette.', coord: [48.1845, 16.3122], maps: gmaps('Schönbrunn Palace, Vienna') },
+      { name: 'St Stephen’s Cathedral', photo: 'vienna-stephansdom', text: 'Vienna’s Gothic heart, with the famous zig-zag tiled roof.', coord: [48.2085, 16.3731], maps: gmaps('St. Stephen\'s Cathedral, Vienna') },
+      { name: 'The historic centre', photo: 'vienna-centre', text: 'The Hofburg, Michaelerplatz and the elegant streets of the Innere Stadt.', coord: [48.2081, 16.3669], maps: gmaps('Michaelerplatz, Vienna') },
+      { name: 'Viennese cafés', photo: 'vienna-cafe', text: 'Melange and Sachertorte under vaulted ceilings at a classic coffee house.', coord: [48.2104, 16.3655], maps: gmaps('Café Central, Vienna') },
+    ],
+    next: ['vienna-tgd', 'tgd-kotor'],
+  },
+  {
+    id: 'kotor', name: 'Kotor', country: 'Montenegro', flag: '🇲🇪', place: 'kotor',
+    checkIn: '2027-07-26', checkOut: '2027-07-29', nights: 3, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'The bay',
+    intro: 'A walled medieval town tucked into the deepest corner of the Bay of Kotor, where grey mountains drop straight into still water. Climb the fortress walls at golden hour and the whole bay opens up below.',
+    hero: 'kotor-hero',
+    hotel: {
+      name: 'Charm Corner Kotor', status: STATUS.ACC_SELECTED, type: 'Apartment',
+      url: 'https://www.booking.com/hotel/me/charm-corner-kotor.html',
+      maps: gmaps('Charm Corner Kotor, Kotor, Montenegro'),
+      blurb: 'Our apartment base for three nights in Kotor.',
+      features: ['Apartment', 'Kitchen', 'Kotor'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Bay of Kotor', photo: 'kotor-bay', text: 'Montenegro’s fjord-like bay, ringed by limestone peaks.', coord: [42.45, 18.70], maps: gmaps('Bay of Kotor') },
+      { name: 'Kotor Old Town', photo: 'kotor-oldtown', text: 'Marble lanes, Venetian palaces and the Square of Arms.', coord: [42.4247, 18.7712], maps: gmaps('Kotor Old Town') },
+      { name: 'Kotor Fortress', photo: 'kotor-fortress', text: 'Around 1,350 steps up the walls to St John’s Fortress and the best view in town.', coord: [42.4219, 18.7743], maps: gmaps('San Giovanni Fortress, Kotor') },
+      { name: 'Perast', photo: 'kotor-perast', text: 'A tiny baroque waterfront town of captains’ palaces and bell towers.', coord: [42.4866, 18.6986], maps: gmaps('Perast, Montenegro') },
+      { name: 'Our Lady of the Rocks', photo: 'kotor-rocks', text: 'A blue-domed church on a man-made islet, reached by boat from Perast.', coord: [42.4851, 18.6894], maps: gmaps('Our Lady of the Rocks, Perast') },
+      { name: 'Bay viewpoints', photo: 'kotor-viewpoint', text: 'Look down on the inner bay and the mountains that enclose it.', coord: [42.4135, 18.7884], maps: gmaps('Kotor Serpentine viewpoint') },
+    ],
+    next: ['kotor-budva'],
+  },
+  {
+    id: 'budva', name: 'Budva', country: 'Montenegro', flag: '🇲🇪', place: 'budva',
+    checkIn: '2027-07-29', checkOut: '2027-07-31', nights: 2, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'Old town, open sea',
+    intro: 'Montenegro’s liveliest stretch of coast. A compact walled old town on a peninsula, beaches tucked under the cliffs, and evenings that run late.',
+    hero: 'budva-hero',
+    hotel: {
+      name: 'Casa Di Mino Old Town', status: STATUS.ACC_SELECTED, type: 'Apartment',
+      url: 'https://www.booking.com/hotel/me/casa-di-mino-old-town.html',
+      maps: gmaps('Casa Di Mino Old Town, Budva'),
+      blurb: 'A stone apartment inside Budva’s old town walls, with wooden ceilings and traditional furniture.',
+      features: ['Inside the Old Town', 'Stone walls', 'Air conditioning'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Budva Old Town', photo: 'budva-oldtown', text: 'Narrow stone lanes, the Citadel and churches inside Venetian walls.', coord: [42.2779, 18.8376], maps: gmaps('Budva Old Town') },
+      { name: 'Mogren Beach', photo: 'budva-mogren', text: 'Two sandy coves a short cliff-path walk from the old town.', coord: [42.2753, 18.8279], maps: gmaps('Mogren Beach, Budva') },
+      { name: 'Sveti Stefan viewpoint', photo: 'budva-svetistefan', text: 'The famous island village, best seen from the road above.', coord: [42.2557, 18.8918], maps: gmaps('Sveti Stefan viewpoint') },
+      { name: 'The Adriatic coast', photo: 'budva-coast', text: 'The Budva Riviera’s sweep of bays and beaches.', coord: [42.29, 18.86], maps: gmaps('Budva Riviera') },
+      { name: 'Beach clubs & nightlife', photo: 'budva-night', text: 'Seafront bars and clubs along the promenade after dark.', coord: [42.2843, 18.8456], maps: gmaps('Slovenska Beach, Budva') },
+    ],
+    next: ['budva-shkoder'],
+  },
+  {
+    id: 'shkoder', name: 'Shkodër', country: 'Albania', flag: '🇦🇱', place: 'shkoder',
+    checkIn: '2027-07-31', checkOut: '2027-08-02', nights: 2, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'Into Albania',
+    intro: 'One of Albania’s oldest cities, between a great lake and the mountains. Cycle-friendly streets, a castle with a legend, and our gateway to the Alps.',
+    hero: 'shkoder-hero',
+    hotel: {
+      name: 'InTown Guesthouse Shkoder', status: STATUS.ACC_SELECTED, type: 'Guesthouse',
+      url: 'https://www.booking.com/hotel/al/intown-guesthouse.html',
+      maps: gmaps('InTown Guesthouse Shkoder'),
+      blurb: 'A characterful guesthouse in an older building in the city centre, with a garden for slow breakfasts.',
+      features: ['City centre', 'Garden', 'Breakfast'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Rozafa Castle', photo: 'shkoder-rozafa', text: 'Hilltop fortress ruins with views over three rivers and the lake.', coord: [42.0466, 19.4936], maps: gmaps('Rozafa Castle, Shkodër') },
+      { name: 'Lake Shkodër', photo: 'shkoder-lake', text: 'The Balkans’ largest lake, shared with Montenegro. Sunset at Shirokë is the classic.', coord: [42.07, 19.44], maps: gmaps('Shirokë, Shkodër') },
+      { name: 'Historic pedestrian streets', photo: 'shkoder-street', text: 'Kolë Idromeno street, lined with restored houses and cafés.', coord: [42.0665, 19.5110], maps: gmaps('Rruga Kolë Idromeno, Shkodër') },
+      { name: 'Local architecture & cafés', photo: 'shkoder-architecture', text: 'Old merchant houses around Gjuhadol and the centre.', coord: [42.0680, 19.5100], maps: gmaps('Rruga Gjuhadol, Shkodër') },
+    ],
+    next: ['shkoder-theth'],
+  },
+  {
+    id: 'theth', name: 'Theth', country: 'Albania', flag: '🇦🇱', place: 'theth',
+    checkIn: '2027-08-02', checkOut: '2027-08-04', nights: 2, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'The Accursed Mountains',
+    intro: 'A remote valley village deep in the Albanian Alps, surrounded by sheer limestone peaks. Days here are for easy walks to waterfalls and glacial-blue pools, and long dinners at the guesthouse.',
+    hero: 'theth-hero',
+    hotel: {
+      name: 'Guesthouse Marashi', status: STATUS.ACC_SELECTED, type: 'Guesthouse',
+      url: 'https://www.booking.com/hotel/al/guesthouse-marashi.html',
+      maps: gmaps('Guesthouse Marashi, Theth'),
+      blurb: 'A family-run guesthouse in Theth National Park with a garden, home cooking and mountain views.',
+      features: ['Mountain views', 'Restaurant', 'Garden'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Blue Eye of Theth', photo: 'theth-blueeye', text: 'Syri i Kaltër near Kaprre: a cold turquoise pool fed by a waterfall. Not to be confused with the Blue Eye near Sarandë.', coord: [42.3640, 19.7860], maps: gmaps('Blue Eye of Theth, Kaprre') },
+      { name: 'Grunas Waterfall', photo: 'theth-grunas', text: 'An easy walk from the village to a 30-metre fall.', coord: [42.3860, 19.7760], maps: gmaps('Grunas Waterfall, Theth') },
+      { name: 'Theth Church', photo: 'theth-church', text: 'The little stone church in a meadow that has become the valley’s icon.', coord: [42.3966, 19.7743], maps: gmaps('Theth Church') },
+      { name: 'Albanian Alps', photo: 'theth-alps', text: 'Radohima and Maja e Harapit rise straight above the village.', coord: [42.42, 19.80], maps: gmaps('Theth National Park') },
+      { name: 'Theth Valley', photo: 'theth-valley', text: 'Stone houses, hay meadows and the clear Shala river.', coord: [42.3958, 19.7738], maps: gmaps('Theth, Albania') },
+      { name: 'Mountain viewpoints', photo: 'theth-pass', text: 'The high pass on the drive in looks across the whole range.', coord: [42.4250, 19.6950], maps: gmaps('Qafa e Thorës, Albania') },
+    ],
+    next: ['theth-tirana'],
+  },
+  {
+    id: 'tirana', name: 'Tirana', country: 'Albania', flag: '🇦🇱', place: 'tirana',
+    checkIn: '2027-08-04', checkOut: '2027-08-06', nights: 2, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'City break',
+    intro: 'Albania’s capital is loud, colourful and full of good food. Painted apartment blocks, Cold War bunkers turned into galleries, and Blloku’s cafés and bars on our doorstep.',
+    hero: 'tirana-hero',
+    hotel: {
+      name: 'The spacious comfy apartment in the heart of Blloku', status: STATUS.ACC_SELECTED, type: 'Apartment',
+      url: 'https://www.booking.com/hotel/al/lovely-3-bedroom-apartment-in-the-heart-of-blloku.html',
+      maps: gmaps('Blloku, Tirana'),
+      blurb: 'A three-bedroom apartment in Blloku, Tirana’s liveliest neighbourhood.',
+      features: ['3 bedrooms', 'Blloku', 'Walk to restaurants'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Skanderbeg Square', photo: 'tirana-square', text: 'The vast pedestrian square at the heart of the city.', coord: [41.3275, 19.8187], maps: gmaps('Skanderbeg Square, Tirana') },
+      { name: 'Blloku', photo: 'tirana-blloku', text: 'Once closed to all but the communist elite, now the city’s social hub.', coord: [41.3195, 19.8160], maps: gmaps('Blloku, Tirana') },
+      { name: 'Restaurants, cafés & nightlife', photo: 'tirana-streets', text: 'Long lunches, rooftop bars and late nights.', coord: [41.3230, 19.8170], maps: gmaps('restaurants Blloku Tirana') },
+      { name: 'Bunk’Art', photo: 'tirana-bunkart', text: 'A vast Cold War bunker, now a museum of Albania’s 20th century.', coord: [41.3530, 19.8780], maps: gmaps('Bunk\'Art 1, Tirana') },
+      { name: 'Colourful streets', photo: 'tirana-colour', text: 'Apartment blocks painted in bold blocks of colour.', coord: [41.3260, 19.8200], maps: gmaps('Tirana city centre') },
+    ],
+    next: ['tirana-berat'],
+  },
+  {
+    id: 'berat', name: 'Berat', country: 'Albania', flag: '🇦🇱', place: 'berat',
+    checkIn: '2027-08-06', checkOut: '2027-08-07', nights: 1, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'The town of a thousand windows',
+    intro: 'A UNESCO World Heritage town where white Ottoman houses climb both banks of the Osum river beneath a castle that is still lived in. One night, best spent wandering at dusk.',
+    hero: 'berat-hero',
+    hotel: {
+      name: 'Villa Arben Elezi', status: STATUS.ACC_SELECTED, type: 'Guesthouse',
+      url: 'https://www.booking.com/hotel/al/guesthouse-arben-elezi.html',
+      maps: gmaps('Villa Arben Elezi, Berat'),
+      blurb: 'A guesthouse in the Mangalem quarter with a sun terrace and garden.',
+      features: ['Mangalem', 'Sun terrace', 'Parking'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Berat Castle', photo: 'berat-castle', text: 'A hilltop citadel with homes, churches and views down the valley.', coord: [40.7098, 19.9467], maps: gmaps('Berat Castle') },
+      { name: 'Mangalem', photo: 'berat-mangalem', text: 'The old Muslim quarter of stacked houses and cobbled lanes.', coord: [40.7072, 19.9497], maps: gmaps('Mangalem, Berat') },
+      { name: 'Gorica Bridge', photo: 'berat-gorica', text: 'The stone-arched footbridge over the Osum.', coord: [40.7046, 19.9500], maps: gmaps('Gorica Bridge, Berat') },
+      { name: 'Ottoman architecture', photo: 'berat-ottoman', text: 'Houses whose rows of windows give Berat its nickname.', coord: [40.7068, 19.9505], maps: gmaps('Berat historic centre') },
+      { name: 'The hillside houses', photo: 'berat-hillside', text: 'Gorica’s houses face Mangalem across the river.', coord: [40.7035, 19.9490], maps: gmaps('Gorica, Berat') },
+    ],
+    next: ['berat-himare'],
+  },
+  {
+    id: 'himare', name: 'Himarë', country: 'Albania', flag: '🇦🇱', place: 'himare',
+    checkIn: '2027-08-07', checkOut: '2027-08-11', nights: 4, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'Four days on the Riviera',
+    intro: 'Our longest beach stay. Himarë sits midway along the Albanian Riviera, with Potam Beach on the doorstep and a string of wild coves, canyons and castles within a short drive.',
+    hero: 'himare-hero',
+    hotel: {
+      name: 'Magic Ionian Apartments & Rooms', status: STATUS.ACC_SELECTED, type: 'Beachfront rooms',
+      url: 'https://www.booking.com/hotel/al/magic-ionian-apartment-rooms.html',
+      maps: gmaps('Magic Ionian Apartments & Rooms, Himarë'),
+      blurb: 'Right on Potam Beach, about a kilometre from Himarë town. Rooms have private balconies with sea or mountain views.',
+      features: ['On Potam Beach', 'Sea-view balconies', 'Sunbeds'],
+      photos: [],
+    },
+    attractions: [
+      { name: 'Himarë waterfront', photo: 'himare-waterfront', text: 'The bay, promenade and seafood tavernas of Spilea.', coord: [40.1017, 19.7447], maps: gmaps('Himarë waterfront') },
+      { name: 'Potam Beach', photo: 'himare-potam', text: 'Our home beach: pebbles, clear water and sunbeds.', coord: [40.0975, 19.7482], maps: gmaps('Potam Beach, Himarë') },
+      { name: 'Livadhi Beach', photo: 'himare-livadhi', text: 'A long, quieter bay just north of town.', coord: [40.1144, 19.7179], maps: gmaps('Livadhi Beach, Himarë') },
+      { name: 'Gjipe Beach', photo: 'himare-gjipe', text: 'A secluded cove at the mouth of a canyon, reached on foot or by boat.', coord: [40.1268, 19.6719], maps: gmaps('Gjipe Beach') },
+      { name: 'Dhërmi', photo: 'himare-dhermi', text: 'White pebble beaches and the old hill village above.', coord: [40.1530, 19.6280], maps: gmaps('Dhërmi Beach') },
+      { name: 'Porto Palermo Castle', photo: 'himare-palermo', text: 'A small fortress on its own peninsula in a sheltered bay.', coord: [40.0605, 19.7928], maps: gmaps('Porto Palermo Castle') },
+      { name: 'Riviera viewpoints', photo: 'himare-viewpoint', text: 'The Llogara Pass looks down over the whole coast.', coord: [40.2055, 19.5895], maps: gmaps('Llogara Pass viewpoint') },
+    ],
+    next: ['himare-ksamil'],
+  },
+  {
+    id: 'ksamil', name: 'Ksamil', country: 'Albania', flag: '🇦🇱', place: 'ksamil',
+    checkIn: '2027-08-11', checkOut: '2027-08-14', nights: 3, stayStatus: STATUS.STAY_PLANNED,
+    kicker: 'Turquoise water',
+    intro: 'Albania’s southern tip, opposite Corfu. Shallow, impossibly clear water around four small islands, swims all day and the ancient city of Butrint just down the road.',
+    hero: 'ksamil-hero',
+    hotel: {
+      name: 'Veranda Hotel by Mirage', status: STATUS.ACC_PARTIAL, type: 'Hotel',
+      url: 'https://www.booking.com/hotel/al/mirage-ksamil1.html',
+      maps: gmaps('Veranda Hotel by Mirage, Ksamil'),
+      blurb: 'A small hotel with a seasonal outdoor pool and balcony rooms, about an eight-minute walk from the beaches.',
+      features: ['Outdoor pool', 'Balconies', 'Breakfast'],
+      photos: [],
+      // See VERIFICATION.md: earlier booking record covers 11–13 Aug only.
+    },
+    attractions: [
+      { name: 'Ksamil Islands', photo: 'ksamil-islands', text: 'Four little islands you can swim or paddle out to.', coord: [39.7666, 19.9966], maps: gmaps('Ksamil Islands') },
+      { name: 'Ksamil beaches', photo: 'ksamil-beach', text: 'Small sandy coves with shallow, glass-clear water.', coord: [39.7720, 19.9990], maps: gmaps('Ksamil Beach') },
+      { name: 'Butrint National Park', photo: 'ksamil-butrint', text: 'A UNESCO-listed ancient city among lagoons and forest.', coord: [39.7457, 20.0204], maps: gmaps('Butrint National Park') },
+      { name: 'Turquoise swimming spots', photo: 'ksamil-swim', text: 'Wade out from the rocks into bright blue shallows.', coord: [39.7750, 19.9980], maps: gmaps('Ksamil swimming spots') },
+      { name: 'Beach clubs', photo: 'ksamil-beachlife', text: 'Sunbeds, cocktails and music along the shore.', coord: [39.7690, 20.0000], maps: gmaps('beach clubs Ksamil') },
+      { name: 'Boat trips', photo: 'ksamil-harta', text: 'Hire a boat to reach hidden bays like Harta.', coord: [39.7830, 19.9950], maps: gmaps('Ksamil boat trips') },
+    ],
+    next: ['ksamil-sarande', 'sarande-corfu'],
+  },
+  {
+    id: 'corfu', name: 'Corfu', country: 'Greece', flag: '🇬🇷', place: 'corfu',
+    checkIn: '2027-08-14', checkOut: null, nights: null, stayStatus: STATUS.STAY_TBC,
+    kicker: 'Arriving in Greece',
+    intro: 'Green hills, Venetian forts and the clearest of Ionian water. Corfu is where our Greek chapter begins.',
+    hero: 'corfu-hero',
+    preview: true,
+    hotel: { name: null, status: STATUS.ACC_TBA },
+    attractions: [
+      { name: 'Corfu Old Town', photo: 'corfu-oldtown', text: 'A UNESCO-listed town of Venetian lanes, the Liston and two fortresses.', coord: [39.6243, 19.9217], maps: gmaps('Corfu Old Town') },
+      { name: 'Paleokastritsa', photo: 'corfu-paleo', text: 'Green headlands, coves and a clifftop monastery on the west coast.', coord: [39.6745, 19.7064], maps: gmaps('Paleokastritsa, Corfu') },
+      { name: 'Porto Timoni Beach', photo: 'corfu-timoni', text: 'Twin beaches on a narrow isthmus below Afionas.', coord: [39.7203, 19.6957], maps: gmaps('Porto Timoni Beach, Corfu') },
+      { name: 'Ionian coastline', photo: 'corfu-coast', text: 'Vlacherna Monastery and Pontikonisi, just south of town.', coord: [39.5876, 19.9223], maps: gmaps('Vlacherna Monastery, Corfu') },
+    ],
+    next: [],
+  },
+];
+
+export const greece = {
+  heading: 'The Adventure Continues…',
+  subheading: 'Our Final 13 Nights in Greece — To Be Confirmed',
+  dates: '14–27 August 2027',
+  nights: 13,
+  line: 'The next part of our journey through Greece is still being planned. Watch this space.',
+  endpoint: 'Athens • 27 August 2027',
+  photo: 'finale-greece',
+  status: STATUS.STAY_TBC,
+};

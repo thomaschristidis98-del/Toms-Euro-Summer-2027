@@ -1,0 +1,28 @@
+{
+  "name": "european-summer-2027",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "European Summer 2027 travel brochure: Vienna, Montenegro, Albania and Corfu.",
+  "scripts": {
+    "dev": "node build.mjs --serve",
+    "build": "node scripts/check-data.mjs && node build.mjs",
+    "build:inline": "node build.mjs --inline",
+    "check": "node scripts/check-data.mjs",
+    "verify:photos": "node scripts/verify-photos.mjs"
+  },
+  "dependencies": {
+    "d3-geo": "3.1.1",
+    "d3-selection": "3.0.0",
+    "d3-shape": "3.2.0",
+    "d3-transition": "3.0.1",
+    "d3-zoom": "3.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3"
+  },
+  "engines": { "node": ">=20" }
+}
