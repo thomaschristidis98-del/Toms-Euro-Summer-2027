@@ -225,7 +225,10 @@ export const destinations = [
       maps: gmaps('Charm Corner Kotor, Kotor, Montenegro'),
       blurb: 'Our apartment base for three nights in Kotor.',
       features: ['Apartment', 'Kitchen', 'Kotor'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/kotor/1.jpg', caption: 'Garden path down to the Bay of Kotor' },
+        { src: '/photos/hotels/kotor/2.jpg', caption: 'Studio with kitchenette and balcony' },
+      ],
     },
     attractions: [
       { name: 'Bay of Kotor', photo: 'kotor-bay', text: 'Montenegro’s fjord-like bay, ringed by limestone peaks.', coord: [42.45, 18.70], maps: gmaps('Bay of Kotor') },
@@ -249,7 +252,10 @@ export const destinations = [
       maps: gmaps('Casa Di Mino Old Town, Budva'),
       blurb: 'A stone apartment inside Budva’s old town walls, with wooden ceilings and traditional furniture.',
       features: ['Inside the Old Town', 'Stone walls', 'Air conditioning'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/budva/1.jpg', caption: 'Balcony over the Old Town rooftops' },
+        { src: '/photos/hotels/budva/2.jpg', caption: 'Bedroom with timber-beamed ceiling' },
+      ],
     },
     attractions: [
       { name: 'Budva Old Town', photo: 'budva-oldtown', text: 'Narrow stone lanes, the Citadel and churches inside Venetian walls.', coord: [42.2779, 18.8376], maps: gmaps('Budva Old Town') },
@@ -272,7 +278,10 @@ export const destinations = [
       maps: gmaps('InTown Guesthouse Shkoder'),
       blurb: 'A characterful guesthouse in an older building in the city centre, with a garden for slow breakfasts.',
       features: ['City centre', 'Garden', 'Breakfast'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/shkoder/1.jpg', caption: 'The garden at dusk' },
+        { src: '/photos/hotels/shkoder/2.jpg', caption: 'Room with original stone and brick walls' },
+      ],
     },
     attractions: [
       { name: 'Rozafa Castle', photo: 'shkoder-rozafa', text: 'Hilltop fortress ruins with views over three rivers and the lake.', coord: [42.0466, 19.4936], maps: gmaps('Rozafa Castle, Shkodër') },
@@ -294,7 +303,10 @@ export const destinations = [
       maps: gmaps('Guesthouse Marashi, Theth'),
       blurb: 'A family-run guesthouse in Theth National Park with a garden, home cooking and mountain views.',
       features: ['Mountain views', 'Restaurant', 'Garden'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/theth/1.jpg', caption: 'The guesthouse in the Theth valley' },
+        { src: '/photos/hotels/theth/2.jpg', caption: 'Timber room with mountain views' },
+      ],
     },
     attractions: [
       { name: 'Blue Eye of Theth', photo: 'theth-blueeye', text: 'Syri i Kaltër near Kaprre: a cold turquoise pool fed by a waterfall. Not to be confused with the Blue Eye near Sarandë.', coord: [42.3640, 19.7860], maps: gmaps('Blue Eye of Theth, Kaprre') },
@@ -318,7 +330,9 @@ export const destinations = [
       maps: gmaps('Blloku, Tirana'),
       blurb: 'A three-bedroom apartment in Blloku, Tirana’s liveliest neighbourhood.',
       features: ['3 bedrooms', 'Blloku', 'Walk to restaurants'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/tirana/1.jpg', caption: 'Bedroom' },
+      ],
     },
     attractions: [
       { name: 'Skanderbeg Square', photo: 'tirana-square', text: 'The vast pedestrian square at the heart of the city.', coord: [41.3275, 19.8187], maps: gmaps('Skanderbeg Square, Tirana') },
@@ -341,7 +355,10 @@ export const destinations = [
       maps: gmaps('Villa Arben Elezi, Berat'),
       blurb: 'A guesthouse in the Mangalem quarter with a sun terrace and garden.',
       features: ['Mangalem', 'Sun terrace', 'Parking'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/berat/1.jpg', caption: 'Terrace looking across to Berat’s old town' },
+        { src: '/photos/hotels/berat/2.jpg', caption: 'Guest room' },
+      ],
     },
     attractions: [
       { name: 'Berat Castle', photo: 'berat-castle', text: 'A hilltop citadel with homes, churches and views down the valley.', coord: [40.7098, 19.9467], maps: gmaps('Berat Castle') },
@@ -364,7 +381,10 @@ export const destinations = [
       maps: gmaps('Magic Ionian Apartments & Rooms, Himarë'),
       blurb: 'Right on Potam Beach, about a kilometre from Himarë town. Rooms have private balconies with sea or mountain views.',
       features: ['On Potam Beach', 'Sea-view balconies', 'Sunbeds'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/himare/1.jpg', caption: 'Balcony over Potam Beach' },
+        { src: '/photos/hotels/himare/2.jpg', caption: 'Right on the beach' },
+      ],
     },
     attractions: [
       { name: 'Himarë waterfront', photo: 'himare-waterfront', text: 'The bay, promenade and seafood tavernas of Spilea.', coord: [40.1017, 19.7447], maps: gmaps('Himarë waterfront') },
@@ -389,7 +409,10 @@ export const destinations = [
       maps: gmaps('Veranda Hotel by Mirage, Ksamil'),
       blurb: 'A small hotel with a seasonal outdoor pool and balcony rooms, about an eight-minute walk from the beaches.',
       features: ['Outdoor pool', 'Balconies', 'Breakfast'],
-      photos: [],
+      photos: [
+        { src: '/photos/hotels/ksamil/1.jpg', caption: 'Balcony with sea view' },
+        { src: '/photos/hotels/ksamil/2.jpg', caption: 'Guest room' },
+      ],
       // See VERIFICATION.md: earlier booking record covers 11–13 Aug only.
     },
     attractions: [
