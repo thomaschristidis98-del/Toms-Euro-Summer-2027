@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { photos } from '../data/photos.js';
 import { photoSources } from '../lib/commons.js';
 
@@ -12,8 +12,17 @@ export function Photo({ id, size = 'card', sizes, className = '', imgClassName =
   const src = photoSources(id, size);
   const [state, setState] = useState('loading'); // loading | loaded | fallback | error
   const [current, setCurrent] = useState(src);
+  const imgRef = useRef(null);
 
   useEffect(() => { setState('loading'); setCurrent(photoSources(id, size)); }, [id, size]);
+
+  // Catch images that finished loading before React attached its onLoad handler.
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && state !== 'error') {
+      if (img.naturalWidth > 0) setState('loaded');
+    }
+  }, [current]);
 
   if (!meta || !src) return <PhotoPlaceholder className={className} label="Photo to come" />;
 
@@ -30,6 +39,7 @@ export function Photo({ id, size = 'card', sizes, className = '', imgClassName =
         <PhotoPlaceholder label={meta.caption} note="Photo unavailable offline" />
       ) : (
         <img
+          ref={imgRef}
           src={current.src}
           srcSet={current.srcSet}
           sizes={sizes || (size === 'hero' ? '100vw' : '(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw')}
