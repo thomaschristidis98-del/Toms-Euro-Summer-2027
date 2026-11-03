@@ -28,8 +28,8 @@ export const photos = {
   }),
 
   // ── Vienna ──────────────────────────────────────────────────────
-  'vienna-hero': C('A_view_of_the_Schloss_Schönbrunn_Wien.JPG', {
-    alt: 'The yellow baroque façade of Schönbrunn Palace in Vienna',
+  'vienna-hero': C('Palacio_de_schönbrunn_01.jpg', {
+    alt: 'Schönbrunn Palace and its formal gardens seen from the Gloriette hill, with Vienna beyond',
     caption: 'Schönbrunn Palace',
   }),
   'vienna-schonbrunn': C('Gloriette_-_Schönbrunn_Palace_Garden,_Vienna.jpg', {
@@ -148,9 +148,9 @@ export const photos = {
     alt: 'Radohima ridge and Maja e Harapit peak towering over Theth',
     caption: 'Albanian Alps: Radohima and Maja e Harapit',
   }),
-  'theth-valley': C('Qender_Theth,_Albania_-_panoramio_-_Petrit_Gjeçaj.jpg', {
-    alt: 'The centre of Theth with scattered stone houses in the valley',
-    caption: 'Theth village centre',
+  'theth-valley': C('Kisha_e_Thethit_-_2018_(8).jpg', {
+    alt: 'Hay meadows and the little church in the Theth valley beneath limestone peaks',
+    caption: 'Theth valley meadows',
   }),
   'theth-pass': C('Buni_i_Thores.jpg', {
     alt: 'Mountain landscape at Buni i Thorës, the high pass on the road into Theth',
@@ -174,9 +174,9 @@ export const photos = {
     alt: 'Everyday street life in central Tirana',
     caption: 'Tirana street life',
   }),
-  'tirana-bunkart': C("Bunk'Art_1,_Tirana,_Albania_(49768620588).jpg", {
-    alt: 'Inside Bunk’Art 1, the Cold War bunker turned museum in Tirana',
-    caption: 'Bunk’Art 1',
+  'tirana-bunkart': C("Bunk'art_Tirana_2017.jpg", {
+    alt: 'The tunnel entrance to Bunk’Art, the Cold War bunker turned museum in Tirana',
+    caption: 'Entrance to Bunk’Art',
   }),
   'tirana-colour': C('Painted_buildings_in_Tirana_-_panoramio.jpg', {
     alt: 'Apartment blocks in Tirana painted in bold colours and patterns',
@@ -248,8 +248,8 @@ export const photos = {
     alt: 'Turquoise water and small islands at Ksamil on the Albanian Riviera',
     caption: 'Ksamil',
   }),
-  'ksamil-islands': C('Ksamil.jpg', {
-    alt: 'The small wooded islands just off Ksamil',
+  'ksamil-islands': C('Ksamil_Albania_._Albanian_Riviera.jpg', {
+    alt: 'The small wooded islands just off Ksamil at dusk',
     caption: 'Ksamil Islands',
   }),
   'ksamil-beach': C('Ksamil_Beach.jpg', {
@@ -264,9 +264,9 @@ export const photos = {
     alt: 'Swimmers in shallow turquoise water at Ksamil',
     caption: 'Swimming in Ksamil',
   }),
-  'ksamil-harta': C('Gjiri_i_Hartes,_Ksamil.jpg', {
-    alt: 'Harta Bay near Ksamil',
-    caption: 'Harta Bay, Ksamil',
+  'ksamil-harta': C('Ksamil6.jpg', {
+    alt: 'Small boats moored in the turquoise bay at Ksamil',
+    caption: 'Boats in Ksamil bay',
   }),
   'ksamil-beachlife': C('Ksamil_-_Strand_7.jpg', {
     alt: 'Sunbeds and umbrellas along the shore at Ksamil',
